@@ -1,0 +1,30 @@
+==104522== Memcheck, a memory error detector
+==104522== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==104522== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==104522== Command: ./test-lls
+==104522== Parent PID: 104521
+==104522== 
+==104522== 
+==104522== Process terminating with default action of signal 6 (SIGABRT)
+==104522==    at 0x541BE97: raise (raise.c:51)
+==104522==    by 0x541D800: abort (abort.c:79)
+==104522==    by 0x540D399: __assert_fail_base (assert.c:92)
+==104522==    by 0x540D411: __assert_fail (assert.c:101)
+==104522==    by 0x1091B1: testList() (in /home/zl248/ece551/089_tests_lls/test-lls)
+==104522==    by 0x10A6D5: main (in /home/zl248/ece551/089_tests_lls/test-lls)
+==104522== 
+==104522== HEAP SUMMARY:
+==104522==     in use at exit: 240 bytes in 10 blocks
+==104522==   total heap usage: 13 allocs, 3 frees, 73,138 bytes allocated
+==104522== 
+==104522== LEAK SUMMARY:
+==104522==    definitely lost: 0 bytes in 0 blocks
+==104522==    indirectly lost: 0 bytes in 0 blocks
+==104522==      possibly lost: 0 bytes in 0 blocks
+==104522==    still reachable: 240 bytes in 10 blocks
+==104522==         suppressed: 0 bytes in 0 blocks
+==104522== Reachable blocks (those to which a pointer was found) are not shown.
+==104522== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==104522== 
+==104522== For counts of detected and suppressed errors, rerun with: -v
+==104522== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

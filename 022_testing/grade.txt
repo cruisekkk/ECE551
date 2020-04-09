@@ -1,0 +1,21 @@
+Grading at 09/10/2019:16:15:34.562173
+For commit ID 352400cab7f000a72fe815fb87801bea222d6562
+Grading at Tue Sep 10 12:15:34 EDT 2019
+#################################################
+test input.1:
+Your file matched the expected output
+input.1 passed
+#################################################
+test input.2:
+Your file matched the expected output
+input.2 passed
+#################################################
+test input.3:
+Your file matched the expected output
+input.3 passed
+#################################################
+test input.4:
+Your file matched the expected output
+input.4 passed
+
+Overall Grade: A

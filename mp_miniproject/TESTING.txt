@@ -1,0 +1,590 @@
+testcases of shell project:
+
+all of the command below should be entered with
+
+./myshell
+
+or
+
+valgrind --track-origins=yes --leak-check=full ./myshell
+(to check memory problems)
+
+
+(0) for valgrind check, every testcase below with valgrind command should output like this:
+
+==45892== All heap blocks were freed -- no leaks are possible
+==45892== 
+==45892== For counts of detected and suppressed errors, rerun with: -v
+==45892== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+It shows the program does not have memory problems. 
+
+
+(1)
+Run : ffosh: ...(I hide the path for now) $exit
+
+you will see the program exit and no longer have 'ffosh$' to wait for next input. 
+because I designed that it should return out of the current program as the task in step1 required. 
+
+
+(2)
+Run : ffosh: ... $(press ctrl + D, which means an EOF)
+
+you will see the effect like testcase (1), no longer have 'ffosh$' to wait for next input.
+because I designed that my program should catch 'EOF' to return out like testcase(1).
+
+
+(3)
+Run : ffosh: ... $"exit " (actually no "" marks, I just mean a white space after "exit")
+
+you will see the effect below 
+
+execve: No such file or directory
+Program failed with code 1
+
+because I only catch "exit" in step1, "exit " can not be searched by my program, so it decided
+"exit " as a "no such file" program, like testcase(6)
+
+
+(4)
+Run : ffosh: ... $(nothing, just press enter)
+
+you will see another line of 'ffosh$' to wait for your next command
+because I designed a loop to continuely receive the user's command
+
+
+(5)
+Run : ffosh: ... $" " (a whitespace or many whitespaces)
+
+you will see another line of 'ffosh$' to wait for your next command
+because I designed it as testcase(4). 
+
+
+(6)
+Run : ffosh: ... $1a12
+
+if you press characters do not exist in the directory you will see 
+
+Command la12 not found
+
+because it does not exist in the directory.
+
+
+(7)
+Run : ffosh: ... $/bin/ls
+
+ you will see
+
+"..."
+(all the file names in current directory, as 'ls' specified for)
+
+Program was successful
+and print another line of 'ffosh$' to wait for your next command.
+
+because 'ls' is a real program in /bin (/bin is an absolute directory), it can be executed successfully.
+
+
+(8)
+Run : ffosh: ... $ls
+
+  you will see the same thing in (7)
+
+because ls is a command without forward slash(/), it searches each directory in the path. /bin is one of the environment path. 
+
+
+(9)
+Run : ffosh: ... $/usr/bin/env
+
+    you will see
+
+'
+...
+ECE551PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+...
+'
+Program was successful
+
+because env exists in /usr/bin and I initialized the ECE551PATH.
+
+
+(10)
+Run : ffosh: ... $env
+
+    you will see the samething in (9)
+
+because /usr/bin is in the path.
+
+
+(11)
+Run : ffosh: ... $printf aaa
+
+    you will see
+aaaProgram was successful
+
+because the funciton of printf.
+
+
+(12)
+Run : ffosh: ... $gcc
+
+    you will see
+gcc: fatal error: no input files
+compilation terminated.
+Program failed with code 1
+
+because the function gcc need more arguments as input.
+
+
+(13)
+Run : ffosh: ... $ ./segfault
+
+you will see
+
+Terminated by signal 11
+
+because segfault is a program in which I write a segmentation fault,
+the program would be terminated because it is a segfault program.
+
+
+(14)
+Run : ffosh: ... $ ./myshell
+
+you will see nothing happend
+because it goes into the next child program
+
+then if you input exit, you will see
+
+Program was successful 
+because it returned into the first child program.
+
+if you input exit again, you will see
+the effect in testcase(1), you will no longer see 'ffosh$'
+because it is the same status as testcase(1)
+
+
+(15)
+Run : ffosh: ... $ ./README
+you will see
+
+execve: Permission denied
+Program failed with code 1
+
+because the README file does not have the execution permission.
+so execve returned, and the program failed.
+
+
+(16)
+Run : ffosh: ... $ .
+you will see
+
+execve: Permission denied
+Program failed with code 1
+
+because . is a directory, I should not deal with directory in step 1.
+so it failed.
+
+
+(17)
+Run : ffosh: ... $ echo a
+you will see
+
+a
+Program was successful
+
+because echo will print the name
+
+
+(18)
+Run: ffosh: ...	$ echo ./myProgram a b 23
+you will see
+
+./myProgram a b 23
+Program was successful
+
+because myshell can take several arguments.
+
+
+(19)
+Run: ffosh: ... $ echo ./myProgram         a               b     23
+you will see
+
+./myProgram a b 23
+Program was successful
+
+because the arbitrary amount of white spaces are processed to one, like (18).
+
+
+(20)
+Run: ffosh: ... $ echo ./myProgram  "a   b"   c       "def   ghi"
+you will see
+
+./myProgram a   b c def   ghi
+Program was successful
+
+because anything in " " will be recognized as one argument. In this case, we have "a  b", c, "def   ghi" three arguments.
+
+
+(21)
+Run: ffosh: ... $ echo ./myProgram  "\"hello world\""   "a\\b\\c d\\"
+you will see
+
+./myProgram "hello world" a\b\c d\
+Program was successful
+
+because myshell support escaped quotation marks (\") and blackslashes (\\).
+
+
+(22)
+Run: ffosh: ... $ echo a\\b
+you will see
+
+a\b
+Program was successful
+
+because the first \ make next \ to write.
+
+
+(23)
+Run: ffosh: ...	$ echo a\\\b
+you will see
+
+a\b
+Program was successful
+
+because	the third \ has nothing to escape and be ignored.
+
+
+(24)
+Run: ffosh: ...	$ echo a\\\\b
+you will see
+
+a\\b
+Program was successful
+
+because	we have escaped \\ now.
+
+
+(25)
+Run: ffosh: ... $ echo ""
+you will see
+
+(nothing in the first line)
+Program was successful
+
+because "" cannot be printed without escaping.
+
+
+(26)
+Run: ffosh: ... $ echo "
+you will see
+
+unmatched "
+execve: Permission denied
+Program failed with code 1
+
+because single " is unmatched.
+
+
+(27)
+Run: ffosh: ... $echo "hello world" " "hi"
+you will see
+
+unmatched "
+execve: Permission denied
+Program failed with code 1
+
+the reason are the same as (26).
+
+
+(28)
+Run: ffosh: ... $echo hello,\ \ world
+you will see
+
+hello,  world
+Program was successful
+
+because echo only recognizes one argument here. The spaces are both escaped.So there is no seperation between hello, and world.
+
+
+(29)
+Run: ffosh: ... $cd
+you will see
+
+cd Need a path
+because myshell does not support a single cd without a specific path
+
+
+(30)
+Run: ffosh: ...	$cd .
+
+ you will see nothing changed
+
+like
+
+ffosh:/home/zl248/ece551/mp_miniproject $cd .
+ffosh:/home/zl248/ece551/mp_miniproject $
+
+because . is the current path.
+
+
+(31)
+Run: ffosh: ... $cd ..
+
+you will see
+
+ffosh:/home/zl248/ece551/mp_miniproject $cd ..
+ffosh:/home/zl248/ece551 $
+
+because .. is the last dir in the path.
+
+
+(32)
+(then Run): 
+
+ffosh:/home/zl248/ece551 $cd mp_miniproject
+
+you will see
+
+ffosh:/home/zl248/ece551/mp_miniproject $ (wait for command)
+
+because mp_miniproject is a valid dir in this path.
+
+
+(33)
+Run: ffosh: ... $cd a
+
+you will see
+
+bash: No such file or directory
+
+because there is no 'a' file in the current path.
+
+
+(34)
+Run: ffosh: ... $cd /
+
+you will see the shell change to root. See (35)
+
+because this is an absolute path
+
+
+(35)
+(then Run): ls
+
+you will see
+
+ffosh:/ $ls
+bin   etc	  initrd.img.old  lib64  opt   run   sys  var
+boot  home	  lib		  media  proc  sbin  tmp  vmlinuz
+dev   initrd.img  lib32		  mnt	 root  srv   usr  vmlinuz.old
+Program was successful 
+ffosh:/ $(waiting...)
+
+because I successfully change the path. command-ls will check the file in the current path.
+
+
+(36)
+Run: ffosh: ... $cd /root
+you will see
+
+bash: Permission denied
+
+because i do not have the perssion to access /root
+
+
+(37)
+Run: ffosh: .. $echo $var1 $var2
+you will see
+
+$var1 $var2
+Program was successful
+
+because we do not set value.
+
+
+(38)
+Run: ffosh: .. $ set var1 hello
+Run: ffosh: .. $ set var2 world
+Run: ffosh: .. $ echo $var1 $var2
+
+you will see
+
+hello world
+Program was successful
+
+because i set their value, and when i write $var1, this word should be replaced by the value.
+
+
+(39)
+Run: ffosh: .. $ set var1 hello
+Run: ffosh: .. $ echo $var1_world
+
+you will see
+
+hello_world
+Program was successful
+
+because it is $var1 followed immediately by _world.
+
+
+(40)
+(then Run)
+ffosh: .. $ set var1 hi
+Run: ffosh: .. $ echo $var1_world
+
+you will see
+
+hi_world
+Program was successful
+
+because	the new value hi replaces(overwrites) the old value hello.
+
+
+(41)
+(then run)
+echo $var1$var2
+
+you will see
+
+hiworld
+Program was successful
+
+because we can expand two values.
+
+
+(42)
+Run: ffosh: .. $ set var1 hello          world 
+Run: ffosh: .. $ echo $var1
+
+you will see
+
+hello	      	 world
+Program was successful
+
+because all of the thing after var1 is the value, including the whitespaces.
+
+
+(43)
+Run: ffosh: .. $ set a
+
+you will see
+
+here should be one more argument
+
+because it cannot recognize any value
+
+
+(44)
+Run: ffosh: .. $ set a! a
+
+you will see
+
+invalid variable name
+
+because the variable only support a combination of letters (case sensitive), underscores, and numbers, (e.g., PATH, xyz, abc42, my_var).
+
+
+(45)
+Run: ffosh: .. $ set a "\"hello"
+
+you will see
+
+invalid variable name
+
+reason is the same in (44)
+
+
+(46)
+Run: ffosh: .. $ set "var 1" hello
+Run: ffosh: .. $ echo $"var 1"
+
+you will see
+
+hello
+Program was successful
+
+myshell won't consider this as invalid variable name
+
+
+(47)
+Run: ffosh: .. $ set var1 hello
+Run: ffosh: .. $ env
+
+you will see var1 is not in env
+
+
+(48)
+Run: ffosh: .. $ set var1 hello
+Run: ffosh: .. $ export var1
+Run: ffosh: .. $ env
+
+now we can see
+
+'
+...
+r/local/games
+LESSOPEN=| /usr/bin/lesspipe %s
+_=./myshell
+OLDPWD=/home/zl248/ece551
+ECE551PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+var1=hello
+'
+Program was successful 
+
+the key-value pair is added in the list.
+
+
+(49)
+Run: ffosh: .. $ export 
+
+you will see
+
+export fail: variable error
+
+because we need one more argument: variable name
+
+
+(50)
+Run: ffosh: .. $ export a
+
+you will see
+
+export fail: variable error
+
+because a is not a variable we declared.
+
+
+(51)
+Run: ffosh: .. $ export	var1 a
+
+you will see
+
+export fail: variable error
+
+because meshell cannot handle more than one variable name
+
+
+(52)
+Run: ffosh: .. $ rev hello
+Run: ffosh: .. $ export var1
+Run: ffosh: .. $ env
+
+you will see
+'
+ECE551PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+var1=olleh
+'
+Program was successful
+
+
+var1 = olleh now, so myshell successfully reverse the value 'hello' on var1
+
+
+(53)
+Run: ffosh: .. $ rev hel
+
+you will see
+
+rev fail: variable error
+
+because myshell cannot find value hel.

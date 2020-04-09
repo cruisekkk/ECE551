@@ -1,0 +1,4 @@
+# Ignore the binary file
+a.out
+# temp file
+*~

@@ -1,0 +1,30 @@
+Grading at 09/25/2019:19:23:44.500410
+For commit ID c24387e881a2935d979eb31f5ab33990968910c5
+Grading at Wed Sep 25 15:23:38 EDT 2019
+Attempting to compile encrypt.c
+testcase1:
+55_fix_vg_encr_input.txt.enc55_fix_vg_encr_input.txt.encyour output was correct
+  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+#################################################
+testcase2:
+  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+#################################################
+testcase3:
+55_fix_vg_encr_input.txt.enc55_fix_vg_encr_input.txt.enc  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+#################################################
+testcase4:
+55_fix_vg_encr_input.txt.enc55_fix_vg_encr_input.txt.enc  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+#################################################
+testcase5:
+55_fix_vg_encr_input.txt.enc55_fix_vg_encr_input.txt.enc  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+#################################################
+testcase6:
+55_fix_vg_encr_input.txt.enc55_fix_vg_encr_input.txt.enc  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+
+Overall Grade: A

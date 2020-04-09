@@ -1,0 +1,123 @@
+testcases of shell project:
+
+all of the command below should be entered with
+
+./myshell
+
+or
+
+valgrind --track-origins=yes --leak-check=full ./myshell
+(to check memory problems)
+
+
+(0) for valgrind check, every testcase below with valgrind command should output like this:
+
+==45892== All heap blocks were freed -- no leaks are possible
+==45892== 
+==45892== For counts of detected and suppressed errors, rerun with: -v
+==45892== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+It shows the program does not have memory problems. 
+
+
+(1)
+Run : ffosh$ exit
+
+you will see the program exit and no longer have 'ffosh$' to wait for next input. 
+because I designed that it should return out of the current program as the task in step1 required. 
+
+
+(2)
+Run : ffosh$ (press ctrl + D, which means an EOF)
+
+you will see the effect like testcase (1), no longer have 'ffosh$' to wait for next input.
+because I designed that my program should catch 'EOF' to return out like testcase(1).
+
+
+(3)
+Run : ffosh$ "exit " (actually no "" marks, I just mean a white space after "exit")
+
+you will see the effect below 
+
+execve: No such file or directory
+Program failed with code 1
+
+because I only catch "exit" in step1, "exit " can not be searched by my program, so it decided
+"exit " as a "no such file" program, like testcase(6)
+
+
+(4)
+Run : ffosh$ (nothing, just press enter)
+
+you will see another line of 'ffosh$' to wait for your next command
+because I designed a loop to continuely receive the user's command
+
+
+(5)
+Run : ffosh$ " " (a whitespace or many whitespaces)
+
+you will see another line of 'ffosh$' to wait for your next command
+because I designed it as testcase(4). 
+
+
+(6)
+Run : ffosh$ 1a12
+
+if you press characters do not exist in the directory you will see 
+
+execve: No such file or directory
+Program failed with code 1
+
+because it does not exist in the directory.
+
+
+(7)
+Run : ffosh$ /bin/ls
+
+ you will see
+
+"..."
+(all the file names in current directory, as 'ls' specified for)
+
+Program was successful
+and print another line of 'ffosh$' to wait for your next command.
+
+because 'ls' is a real program in /bin (/bin is an absolute directory), it can be executed successfully.
+
+
+(8)
+Run : ffosh$ ./segfault
+
+you will see
+
+Terminated by signal 11
+
+because segfault is a program in which I write a segmentation fault,
+the program would be terminated because it is a segfault program.
+
+
+(9)
+Run : ffosh$ ./myshell
+
+you will see nothing happend
+because it goes into the next child program
+
+then if you input exit, you will see
+
+Program was successful 
+because it returned into the first child program.
+
+if you input exit again, you will see
+the effect in testcase(1), you will no longer see 'ffosh$'
+
+
+(10)
+Run : ffosh$ ./README
+you will see
+
+execve: Permission denied
+Program failed with code 1
+
+because 
+
+

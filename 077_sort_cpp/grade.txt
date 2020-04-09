@@ -1,0 +1,40 @@
+Grading at 10/22/2019:10:50:20.136750
+For commit ID 3f255be070225dcd2c7cc6c20a6e83571e2b0e2e
+Grading at Tue Oct 22 06:50:10 EDT 2019
+Looking for malloc in your files
+No uses found (good).
+Looking for free in your files
+No uses found (good).
+Looking for FILE in your files
+No uses found (good).
+Looking for realloc in your files
+No uses found (good).
+Looking for qsort in your files
+No uses found (good).
+Looking for printf in your files
+sortLines.cpp:      fprintf(stderr, "cannot open");
+No uses found (good).
+Attempting to compile with make
+g++ -o sortLines --std=gnu++98 -pedantic -Wall -Werror -ggdb3 sortLines.cpp
+Using sortLines..
+#################################################
+testcase1:
+testcase1 passed, your program successfully indicated a failure
+valgrind was clean
+#################################################
+testcase2:
+Your output is correct
+  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+#################################################
+testcase3:
+Your output is correct
+  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+#################################################
+testcase4:
+Your output is correct
+  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+
+Overall Grade: A
